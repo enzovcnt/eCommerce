@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ProductController extends AbstractController
 {
-    #[Route('/product', name: 'app_product')]
+    #[Route('/products', name: 'app_products')]
     public function index(ProductRepository $productRepository): Response
     {
         return $this->render('product/index.html.twig', [
@@ -21,7 +21,7 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/{id}', name: 'app_product_show')]
+    #[Route('/product/{id}', name: 'app_product_show', priority: -1)]
     public function show(Product $product): Response
     {
         return $this->render('product/show.html.twig', [
@@ -35,9 +35,10 @@ final class ProductController extends AbstractController
         $formNew = $this->createForm(ProductForm::class, $product);
         $formNew->handleRequest($request);
         if($formNew->isSubmitted() && $formNew->isValid()){
-
+            $product->setDate(new \DateTime());
             $manager->persist($product);
             $manager->flush();
+            return $this->redirectToRoute('app_products');
         }
 
         return $this->render('product/new.html.twig', [

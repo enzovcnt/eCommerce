@@ -1,1 +1,17 @@
 {% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(formNew) }}
+
+        {{ form_row(formNew.name) }}
+        {{ form_row(formNew.description) }}
+        {{ form_row(formNew.price) }}
+        {{ form_row(formNew.stock) }}
+        <button type="submit">
+            Envoyer
+        </button>
+
+    {{ form_end(formNew) }}
+
+{% endblock %}
