@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductForm;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,20 +32,35 @@ final class ProductController extends AbstractController
     public function new(EntityManagerInterface $manager, Request $request): Response
     {
         $product = new Product();
-        $form = $this->createForm(ProductForm::class, $product);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        $formNew = $this->createForm(ProductForm::class, $product);
+        $formNew->handleRequest($request);
+        if($formNew->isSubmitted() && $formNew->isValid()){
 
             $manager->persist($product);
             $manager->flush();
-            return $this->redirectToRoute('app_post_addimage', ['id' => $post->getId()]);
         }
 
-        return $this->render('post/create.html.twig', [
-            'formNew' => $form,
-        ]);
         return $this->render('product/new.html.twig', [
-
+            'formNew' => $formNew->createView(),
         ]);
+    }
+    #[Route('/product/{id}/edit', name: 'app_product_edit')]
+    public function edit(Request $request, Product $product, EntityManagerInterface $manager): Response{
+        $formEdit = $this->createForm(ProductForm::class, $product);
+        $formEdit->handleRequest($request);
+        if($formEdit->isSubmitted() && $formEdit->isValid()){
+            $manager->persist($product);
+            $manager->flush();
+        }
+        return $this->render('product/edit.html.twig', [
+            'formEdit' => $formEdit->createView(),
+        ]);
+    }
+
+    #[Route('/product/{id}/delete', name: 'app_product_delete')]
+    public function delete(Product $product, EntityManagerInterface $manager): Response{
+        $manager->remove($product);
+        $manager->flush();
+        return $this->redirectToRoute('app_product_index');
     }
 }
