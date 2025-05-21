@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+    {% for order in app.user.profile.orders %}
+
+        <p><strong>id : {{ order.id }}  total : {{ order.total }}</strong></p>
+
+    {% endfor %}
+
+{% endblock %}

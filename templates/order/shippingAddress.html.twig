@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+
+    <h3>pick a shipping address</h3>
+    {% for address in app.user.profile.address %}
+
+        <a href="{{ path('app_order_payment',{idBilling:billingAddress.id, idShipping:address.id}) }}">
+            {{ address.number }}
+            {{ address.street }}
+            {{ address.city }}
+            {{ address.zipCode }}
+            {{ address.country }}
+        </a>
+
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+    <h3>recap</h3>
+    <table>
+        <thead>
+        <tr>
+            <td>product name</td>
+            <td>unit price</td>
+            <td>quantity</td>
+            <td>subtotal</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.price * item.quantity }}</td>
+
+            </tr>
+
+
+        {% endfor %}
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Grand Total</td>
+            <td><strong>{{ total }} €</strong></td>
+        </tr>
+
+        </tbody>
+    </table>
+    <h4>Billing address</h4>
+    <p>{{ billing.number }}</p>
+    <p>{{ billing.street }}</p>
+    <p>{{ billing.city }}</p>
+    <p>{{ billing.zipCode }}</p>
+    <p>{{ billing.country }}</p>
+
+    <h4>Shipping address</h4>
+    <p>{{ shipping.number }}</p>
+    <p>{{ shipping.street }}</p>
+    <p>{{ shipping.city }}</p>
+    <p>{{ shipping.zipCode }}</p>
+    <p>{{ shipping.country }}</p>
+
+    <h2>Happy with all that ?</h2>
+    <a href="{{ path('app_order_validate', {idBilling:billing.id, idShipping:shipping.id}) }}">Pay and order</a>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ShoppingController!{% endblock %}
+
+{% block body %}
+    {% for product in products %}
+
+        <hr>
+        <p><strong>{{ product.name }}</strong></p>
+        <p>{{ product.description }}</p>
+        <p>{{ product.price }} $</p>
+        <p>{{ product.stock }} kg</p>
+
+        <a href="{{ path('app_product_show', {id:product.id}) }}">Voir</a>
+        {%  if app.user %}
+            <a href="{{ path('app_cart_add',{id:product.id, quantity:1}) }}">Add to cart</a>
+        {% endif %}
+
+        {{ form_start(quantityForm,
+
+            attr:
+            {"action": path('app_shopping_add_to_cart', {id:product.id})
+            }
+        )
+        }}
+        {{ form_widget(quantityForm) }}
+        <button type="submit">add to cart</button>
+        {{ form_end(quantityForm) }}
+        <hr>
+
+    {% endfor %}
+{% endblock %}
