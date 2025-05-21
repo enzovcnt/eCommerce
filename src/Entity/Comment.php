@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -18,6 +19,7 @@ class Comment
     private ?string $content = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\PositiveOrZero]
     private ?int $stars = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -26,6 +28,10 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Profile $author = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Product $product = null;
 
 
     public function getId(): ?int
@@ -77,6 +83,18 @@ class Comment
     public function setAuthor(?Profile $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
 
         return $this;
     }

@@ -11,4 +11,29 @@
     <a href="{{ path('app_product_edit', {id:product.id}) }}">Edit</a>
     <hr>
 
+
+    <div>
+        {{ form_start(formComment, {
+            'action': path('app_comment', {id: product.id}),
+            'method': 'POST',
+        }) }}
+
+        {{ form_row(formComment.content) }}
+        {{ form_row(formComment.stars) }}
+
+        <button type="submit">
+            Envoyer
+        </button>
+
+        {{ form_end(formComment) }}
+    </div>
+
+    <div>
+        {% for comment in product.comments %}
+                <p>Author: {{ comment.author.name }}</p>
+                <p>{{ comment.content }}</p>
+                <p>{{ comment.stars }}</p>
+            </div>
+        {% endfor %}
+
 {% endblock %}

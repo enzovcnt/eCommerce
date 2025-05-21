@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Product;
+use App\Form\CommentForm;
 use App\Form\ProductForm;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,10 +24,30 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/product/{id}', name: 'app_product_show', priority: -1)]
-    public function show(Product $product): Response
+    public function show(Product $product, EntityManagerInterface $manager, Request $request): Response
     {
+
+        if(!$this->getUser() || !$product)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        $comment = new Comment();
+        $form = $this->createForm(CommentForm::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setProduct($product);
+            $comment->setAuthor($this->getUser()->getprofile());
+            $comment->setDate(new \DateTime());
+            $manager->persist($comment);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
+        }
         return $this->render('product/show.html.twig', [
             'product' => $product,
+            'formComment' => $form,
+            'comment' => $comment,
         ]);
     }
     #[Route('/product/create', name: 'app_product_create')]
