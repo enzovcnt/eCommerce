@@ -6,11 +6,13 @@
 
     {% for product in products %}
 
-        <p>{{ product.name }}</p>
+<hr>
+        <p><strong>{{ product.name }}</strong></p>
         <p>{{ product.description }}</p>
-        <p>{{ product.price }}</p>
-        <p>{{ product.stock }}</p>
-
+        <p>{{ product.price }} $</p>
+        <p>{{ product.stock }} kg</p>
+        <a href="{{ path('app_product_show', {id:product.id}) }}">Voir</a>
+<hr>
 
     {% endfor %}
 

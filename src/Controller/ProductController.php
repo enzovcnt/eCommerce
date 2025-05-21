@@ -52,6 +52,7 @@ final class ProductController extends AbstractController
         if($formEdit->isSubmitted() && $formEdit->isValid()){
             $manager->persist($product);
             $manager->flush();
+            return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
         }
         return $this->render('product/edit.html.twig', [
             'formEdit' => $formEdit->createView(),

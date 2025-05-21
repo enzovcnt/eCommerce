@@ -1,1 +1,14 @@
 {% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <hr>
+    <p><strong>{{ product.name }}</strong></p>
+    <p>{{ product.description }}</p>
+    <p>{{ product.price }} $</p>
+    <p>{{ product.stock }} kg</p>
+    <a href="{{ path('app_products') }}">retour</a>
+    <a href="{{ path('app_product_edit', {id:product.id}) }}">Edit</a>
+    <hr>
+
+{% endblock %}

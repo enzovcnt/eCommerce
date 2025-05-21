@@ -1,1 +1,18 @@
 {% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    {{ form_start(formEdit) }}
+
+    {{ form_row(formEdit.name) }}
+    {{ form_row(formEdit.description) }}
+    {{ form_row(formEdit.price) }}
+    {{ form_row(formEdit.stock) }}
+    <button type="submit">
+        Envoyer
+    </button>
+
+    {{ form_end(formEdit) }}
+
+{% endblock %}
