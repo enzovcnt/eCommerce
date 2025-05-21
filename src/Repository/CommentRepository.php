@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -30,6 +31,16 @@ class CommentRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
+    public function getAverageStarsForProduct(Product $product): ?float
+    {
+        return $this->createQueryBuilder('c')
+            ->select('AVG(c.stars) as avg_stars')
+            ->where('c.product = :product')
+            ->andWhere('c.stars IS NOT NULL')
+            ->setParameter('product', $product)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
 //    public function findOneBySomeField($value): ?Comment
 //    {

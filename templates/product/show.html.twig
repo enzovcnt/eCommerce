@@ -7,6 +7,11 @@
     <p>{{ product.description }}</p>
     <p>{{ product.price }} $</p>
     <p>{{ product.stock }} kg</p>
+    {% if averageStars is not null %}
+        <p>Moyenne des notes : {{ averageStars|number_format(1) }}/5</p>
+    {% else %}
+        <p>Ce produit n'a pas encore été noté.</p>
+    {% endif %}
     <a href="{{ path('app_products') }}">retour</a>
     <a href="{{ path('app_product_edit', {id:product.id}) }}">Edit</a>
     <hr>

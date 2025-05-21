@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Product;
 use App\Form\CommentForm;
 use App\Form\ProductForm;
+use App\Repository\CommentRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,13 +25,14 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/product/{id}', name: 'app_product_show', priority: -1)]
-    public function show(Product $product, EntityManagerInterface $manager, Request $request): Response
+    public function show(Product $product, EntityManagerInterface $manager, Request $request, CommentRepository $commentRepository): Response
     {
 
         if(!$this->getUser() || !$product)
         {
             return $this->redirectToRoute('app_login');
         }
+        $averageStars = $commentRepository->getAverageStarsForProduct($product);
         $comment = new Comment();
         $form = $this->createForm(CommentForm::class, $comment);
         $form->handleRequest($request);
@@ -48,6 +50,7 @@ final class ProductController extends AbstractController
             'product' => $product,
             'formComment' => $form,
             'comment' => $comment,
+            'averageStars' => $averageStars,
         ]);
     }
     #[Route('/product/create', name: 'app_product_create')]
