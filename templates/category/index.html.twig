@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategoryController!{% endblock %}
+
+{% block body %}
+    <ul class="list-group">
+        {% for category in category %}
+            <li class="list-group-item">{{ category.id }} : {{ category.name }}</li>
+        {% endfor %}
+
+    </ul>
+
+    {{ form_start(formCat) }}
+    {{ form_row(formCat.name) }}
+    <button type="submit" class="btn btn-success">Send</button>
+    {{ form_end(formCat) }}
+
+{% endblock %}
