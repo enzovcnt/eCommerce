@@ -15,12 +15,12 @@ class Address
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $nummber = null;
+    private ?int $number = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $street = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $city = null;
 
     #[ORM\Column]
@@ -38,14 +38,14 @@ class Address
         return $this->id;
     }
 
-    public function getNummber(): ?int
+    public function getNumber(): ?int
     {
-        return $this->nummber;
+        return $this->number;
     }
 
-    public function setNummber(int $nummber): static
+    public function setNumber(int $number): static
     {
-        $this->nummber = $nummber;
+        $this->number = $number;
 
         return $this;
     }
