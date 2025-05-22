@@ -63,7 +63,7 @@ class RegistrationController extends AbstractController
 
             //envoyer l'email
             $mail->send(
-                'test@test.com',
+                'mail@enzovincent.org',
                 $user->getEmail(),
                 'Your account has been created.',
                 'register',
@@ -86,9 +86,10 @@ class RegistrationController extends AbstractController
             //le token est valide
             //on récupére les données du payload
             $payload = $jwt->getPayload($token);
-            dd($payload);
+
+
             //on récupère le user
-            $user = $userRepository->find([$payload['user_id']]);
+            $user = $userRepository->find($payload['user_id']);
 
             //on vérifie qu'on a bien un user et qu'il n'est pas déjà activé
             if ($user && !$user->isVerified())
