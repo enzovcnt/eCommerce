@@ -14,20 +14,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+
+
 final class ShoppingController extends AbstractController
 {
     #[Route('/shopping', name: 'app_shopping')]
     public function index(ProductRepository $productRepository): Response
     {
-        $quantityForm = $this->createForm(ProductQuantityForm::class);
+
 
         return $this->render('shopping/index.html.twig', [
             'products' => $productRepository->findAll(),
-            'quantityForm'=> $quantityForm,
+
         ]);
     }
 
-    #[Route('/shopping/product/{id}', name: 'app_shopping_product_show', priority: -1)]
+    #[Route('/shopping/{id}', name: 'app_shopping_product_show')]
     public function show(Product $product, EntityManagerInterface $manager, Request $request, CommentRepository $commentRepository): Response
     {
 

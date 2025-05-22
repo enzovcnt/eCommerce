@@ -1,10 +1,10 @@
-{{ form_start(quantityForm[product.id],
+{{ form_start(quantityForm,
 
     attr:
     {"action": path('app_shopping_add_to_cart', {id:product.id})
     }
 )
 }}
-        {{ form_widget(quantityForm[product.id]) }}
+        {{ form_widget(quantityForm) }}
 <button type="submit">add to cart</button>
-{{ form_end(quantityForm[product.id]) }}
+{{ form_end(quantityForm) }}

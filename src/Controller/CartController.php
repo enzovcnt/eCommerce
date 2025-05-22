@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Repository\AddressRepository;
 use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,11 +21,19 @@ final class CartController extends AbstractController
         ]);
     }
     #[Route('/cart/add/{id}/{quantity}', name: 'app_cart_add')]
-    public function add(Product $product, int $quantity, CartService $cartService): Response
+    public function add(Product $product, int $quantity, CartService $cartService, AddressRepository $addressRepository): Response
     {
         if(!$product)
         {
             return $this->redirectToRoute('app_shopping');
+        }
+
+        $user = $this->getUser();
+        $profile = $user->getProfile();
+        $addresses = $addressRepository->findBy(['owner' => $profile]);
+
+        if (empty($addresses)) {
+            return $this->redirectToRoute('app_address', ['id' => $profile->getId()]);
         }
         $cartService->addToCart($product, $quantity);
         return $this->redirectToRoute('app_cart');

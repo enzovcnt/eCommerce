@@ -16,6 +16,10 @@
             {{ address.country }}
         </a>
 
+
     {% endfor %}
 
+    <a href="{{ path('app_address', {'redirect': 'app_order_shippingAddress', 'id': billingAddress.id}) }}">
+        Ajouter une adresse de livraison
+    </a>
 {% endblock %}

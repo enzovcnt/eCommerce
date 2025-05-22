@@ -17,13 +17,11 @@ final class OrderController extends AbstractController
     #[Route('/order/billingAddress', name: 'app_order_billingAddress')]
     public function billingAddress(): Response
     {
-
         return $this->render('order/billingAddress.html.twig');
     }
     #[Route('/order/shippingAddress/{id}', name: 'app_order_shippingAddress')]
     public function shippingAddress(Address $address): Response
     {
-
         return $this->render('order/shippingAddress.html.twig',[
             'billingAddress' => $address
         ]);
