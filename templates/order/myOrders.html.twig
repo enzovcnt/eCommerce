@@ -6,7 +6,12 @@
 
     {% for order in app.user.profile.orders %}
 
-        <p><strong>id : {{ order.id }}  total : {{ order.total }}</strong></p>
+        <p><strong>
+                id : {{ order.id }}  total : {{ order.total }}
+                {% if order.status == 1 %}
+                    en cours
+                {% endif %}
+            </strong></p>
 
     {% endfor %}
 

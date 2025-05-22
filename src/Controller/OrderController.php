@@ -53,6 +53,7 @@ final class OrderController extends AbstractController
         $order->setShippingAddress($shipping);
         $order->setCustomer($this->getUser()->getProfile());
         $order->setTotal($cartService->getTotal());
+        $order->setStatus(1);
         $manager->persist($order);
 
 
