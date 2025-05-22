@@ -13,6 +13,7 @@
     <div id="burger-menu" class="w-full hidden lg:flex lg:items-center lg:w-auto">
         <div class="text-xl lg:flex-grow">
             {% if app.user %}
+                <a href="{{ path('app_cart') }}">Cart <strong>({{ cart_global.getCount() }})</strong></a>
                 <a href="{{ path('app_products') }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">Accueil</a>
                 <a href="{{ path('app_product_create') }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">Create</a>
                 <a href="{{ path('app_category') }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">Category</a>

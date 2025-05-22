@@ -14,6 +14,7 @@ final class ShoppingController extends AbstractController
     public function index(ProductRepository $productRepository): Response
     {
         $quantityForm = $this->createForm(ProductQuantityForm::class);
+
         return $this->render('shopping/index.html.twig', [
             'products' => $productRepository->findAll(),
             'quantityForm'=> $quantityForm,

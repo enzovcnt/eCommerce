@@ -41,6 +41,21 @@ class CartService
         $this->requestStack->getSession()->set("cart", $cart);
     }
 
+    public function removeOneUnitFromCart(Product $product, int $quantity): void
+    {
+        $cart = $this->requestStack->getSession()->get("cart", []);
+        $productId = $product->getId();
+
+        if (isset($cart[$productId])) {
+            if ($cart[$productId] > 1) {
+                $cart[$productId] -= $quantity;
+            } else {
+                unset($cart[$productId]);
+            }
+            $this->requestStack->getSession()->set("cart", $cart);
+        }
+    }
+
     public function getTotal():float
     {
         $cart=$this->getCart();
@@ -60,9 +75,19 @@ class CartService
 
         return $count;
     }
-    public function removeProductFromCart(){}
-    public function removeOneUnitFromCart(){}
-    public function emptyCart(){
+    public function removeProductFromCart(Product $product): void
+    {
+        $cart = $this->requestStack->getSession()->get("cart", []);
+        $productId = $product->getId();
+
+        if (isset($cart[$productId])) {
+            unset($cart[$productId]);
+            $this->requestStack->getSession()->set("cart", $cart);
+        }
+    }
+
+    public function emptyCart()
+    {
         $this->requestStack->getSession()->remove("cart");
     }
 
