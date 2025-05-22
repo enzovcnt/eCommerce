@@ -12,12 +12,20 @@
         <p>{{ product.stock }} kg</p>
 
         <a href="{{ path('app_product_show', {id:product.id}) }}">Voir</a>
-        {%  if app.user %}
+        {%  if app.user and product.stock > 0 %}
             <a href="{{ path('app_cart_add',{id:product.id, quantity:1}) }}">Add to cart</a>
+            {% else %}
+            <p>0 Stock</p>
         {% endif %}
 
 
-
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         <hr>
 
     {% endfor %}

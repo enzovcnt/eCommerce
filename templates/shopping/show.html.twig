@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <hr>
+    <p><strong>{{ product.name }}</strong></p>
+    <p>{{ product.description }}</p>
+    <p>{{ product.price }} $</p>
+    <p>{{ product.stock }} kg</p>
+    {% include('shopping/productQuantity.html.twig') %}
+    {% if averageStars is not null %}
+        <p>Moyenne des notes : {{ averageStars|number_format(1) }}/5</p>
+    {% else %}
+        <p>Ce produit n'a pas encore été noté.</p>
+    {% endif %}
+    <a href="{{ path('app_shopping') }}">retour</a>
+    <hr>
+
+
+    <div>
+        {{ form_start(formComment, {
+            'action': path('app_comment', {id: product.id}),
+            'method': 'POST',
+        }) }}
+
+        {{ form_row(formComment.content) }}
+        {{ form_row(formComment.stars) }}
+
+        <button type="submit">
+            Envoyer
+        </button>
+
+        {{ form_end(formComment) }}
+    </div>
+
+    <div>
+    {% for comment in product.comments %}
+        <p>Author: {{ comment.author.name }}</p>
+        <p>{{ comment.content }}</p>
+        <p>{{ comment.stars }}</p>
+        </div>
+    {% endfor %}
+
+{% endblock %}

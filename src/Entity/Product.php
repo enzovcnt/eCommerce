@@ -106,6 +106,16 @@ class Product
         return $this;
     }
 
+    public function decreaseStock(int $quantity): void
+    {
+        $this->stock -= $quantity;
+    }
+
+    public function isInStock(int $quantity): bool
+    {
+        return $this->stock >= $quantity;
+    }
+
     public function getDate(): ?\DateTime
     {
         return $this->date;

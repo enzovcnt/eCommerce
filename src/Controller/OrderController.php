@@ -58,11 +58,20 @@ final class OrderController extends AbstractController
 
 
         foreach ($cartService->getCart() as $cartItem) {
+            $product = $cartItem["product"];
+            $quantity = $cartItem["quantity"];
+            if (!$product->isInStock($quantity)) {
+                $this->addFlash('error', 'Stock insuffisant pour ' . $product->getName());
+                return $this->redirectToRoute('app_shopping');
+            }
+
             $orderItem = new OrderItem();
             $orderItem->setProduct($cartItem["product"]);
             $orderItem->setQuantity($cartItem["quantity"]);
+            $product->decreaseStock($quantity);
             $orderItem->setOfOrder($order);
             $manager->persist($orderItem);
+            $manager->persist($product);
         }
         $manager->flush();
         $cartService->emptyCart();
