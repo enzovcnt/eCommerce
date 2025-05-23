@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 
-
+#[Route('/user')]
 final class ShoppingController extends AbstractController
 {
     #[Route('/shopping', name: 'app_shopping')]

@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 
+#[Route('/admin')]
 final class ProductController extends AbstractController
 {
     #[Route('/products', name: 'app_products')]

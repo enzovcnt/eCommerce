@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -28,5 +30,13 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    #[Route('/connect/google', name: 'connect_google')]
+    public function connectGoogle(ClientRegistry $clientRegistry): RedirectResponse
+    {
+        return $clientRegistry
+            ->getClient('google')
+            ->redirect(['profile', 'email']);
     }
 }

@@ -24,11 +24,11 @@ class RegistrationController extends AbstractController
     ): Response
     {
         $user = new User();
-//        $profile = new Profile();
+        $profile = new Profile();
 
 
 
-//        $user->setProfile($profile);
+        $user->setProfile($profile);
         $form = $this->createForm(RegistrationForm::class, $user);
         $form->handleRequest($request);
 
@@ -40,7 +40,7 @@ class RegistrationController extends AbstractController
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             $entityManager->persist($user);
-//            $entityManager->persist($profile);
+            $entityManager->persist($profile);
             $entityManager->flush();
 
             // do anything else you need here, like send an email

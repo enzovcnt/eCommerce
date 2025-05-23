@@ -11,7 +11,7 @@
         <p>{{ product.price }} $</p>
         <p>{{ product.stock }} kg</p>
 
-        <a href="{{ path('app_product_show', {id:product.id}) }}">Voir</a>
+        <a href="{{ path('app_shopping_product_show', {id:product.id}) }}">Voir</a>
         {%  if app.user and product.stock > 0 %}
             <a href="{{ path('app_cart_add',{id:product.id, quantity:1}) }}">Add to cart</a>
             {% else %}

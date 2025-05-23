@@ -76,8 +76,10 @@ final class OrderController extends AbstractController
         return $this->redirectToRoute('app_my_orders');
     }
     #[Route('/myOrders', name: 'app_my_orders')]
-    public function myOrders(): Response
+    public function myOrders(AddressRepository $addressRepository): Response
     {
-        return $this->render('order/myOrders.html.twig');
+        return $this->render('order/myOrders.html.twig', [
+
+        ]);
     }
 }
