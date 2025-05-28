@@ -43,7 +43,7 @@ class StripeController extends AbstractController
             'payment_method_types' => ['card'],
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => $urlGenerator->generate('app_my_orders', ['orderId' => $orderId, 'idBilling'=> $idBilling, 'idShipping' =>$idShipping], UrlGeneratorInterface::ABSOLUTE_URL),
+            'success_url' => $urlGenerator->generate('app_order_validate', ['orderId' => $orderId, 'idBilling'=> $idBilling, 'idShipping' =>$idShipping], UrlGeneratorInterface::ABSOLUTE_URL),
             'cancel_url' => $urlGenerator->generate('don_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
 
