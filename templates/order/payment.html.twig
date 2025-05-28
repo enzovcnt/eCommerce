@@ -53,6 +53,7 @@
     <p>{{ shipping.country }}</p>
 
     <h2>Happy with all that ?</h2>
-    <a href="{{ path('app_order_validate', {idBilling:billing.id, idShipping:shipping.id}) }}">Pay and order</a>
-
+    <a href="{{ path('app_order_prepare', {idBilling: billing.id, idShipping: shipping.id}) }}">
+        Payer et commander
+    </a>
 {% endblock %}

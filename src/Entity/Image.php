@@ -28,6 +28,10 @@ class Image implements \Serializable
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Product $product = null;
+
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this
@@ -92,5 +96,27 @@ class Image implements \Serializable
     public function __unserialize(array $data): void
     {
         $this->imageName = $data['imageName'];
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function setId(?int $id): static
+    {
+        $this->id = $id;
+        return $this;
+    }
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

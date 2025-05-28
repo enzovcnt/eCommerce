@@ -3,6 +3,11 @@
 {% block body %}
 
     <hr>
+    {% for img in product.images %}
+        <div class="carousel-item active">
+            <img src="{{ vich_uploader_asset(img, "imageFile") | imagine_filter('miniature') }}" class="card-img-top" alt="...">
+        </div>
+    {% endfor %}
     <p><strong>{{ product.name }}</strong></p>
     <p>{{ product.description }}</p>
     <p>{{ product.price }} $</p>
@@ -14,6 +19,7 @@
     {% endif %}
     <a href="{{ path('app_products') }}">retour</a>
     <a href="{{ path('app_product_edit', {id:product.id}) }}">Edit</a>
+    <a href="{{ path('app_product_addimage', {id:product.id}) }}">Ajouter image</a>
     <hr>
 
 

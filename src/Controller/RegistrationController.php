@@ -88,6 +88,7 @@ class RegistrationController extends AbstractController
             $payload = $jwt->getPayload($token);
 
 
+
             //on récupère le user
             $user = $userRepository->find($payload['user_id']);
 

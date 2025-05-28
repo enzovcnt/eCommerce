@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Image;
 use App\Entity\Product;
 use App\Form\CommentForm;
+use App\Form\ImageForm;
 use App\Form\ProductForm;
 use App\Repository\CommentRepository;
 use App\Repository\ProductRepository;
@@ -91,5 +93,53 @@ final class ProductController extends AbstractController
         $manager->remove($product);
         $manager->flush();
         return $this->redirectToRoute('app_product_index');
+    }
+
+
+    #[Route('/product/addimage/{id}', name: 'app_product_addimage')]
+    public function addImage(Product $product, Request $request, EntityManagerInterface $manager) : Response
+    {
+        if(!$this->getUser() || !$product)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        if($this->getUser() && !$this->isGranted('ROLE_ADMIN'))
+        {
+            return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
+        }
+        $image = new Image();
+        $formImage = $this->createForm(ImageForm::class, $image);
+        $formImage->handleRequest($request);
+        if($formImage->isSubmitted() && $formImage->isValid()){
+            $image->setProduct($product);
+            $manager->persist($image);
+            $manager->flush();
+            return $this->redirectToRoute('app_product_addimage', ['id' => $product->getId()]);
+        }
+
+
+        return $this->render('product/image.html.twig', [
+            'product' => $product,
+            'formImage' => $formImage->createView(),
+        ]);
+    }
+
+    #[Route('/product/removeImage/{id}', name: 'app_removeImage')]
+    public function removeImage(Image $image, EntityManagerInterface $manager) : Response
+    {
+        if(!$this->getUser() || !$image)
+        {
+            return $this->redirectToRoute('app_login');
+        }
+        if($image->getProduct() && !$this->getUser())
+        {
+            return $this->redirectToRoute('app_product_show', ['id' => $image->getId()]);
+        }
+        $productId = $image->getProduct()->getId();
+        $manager->remove($image);
+        $manager->flush();
+
+
+        return $this->redirectToRoute('app_product_addimage', ['id' => $productId]);
     }
 }
