@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Récapitulatif commande</title>
+    <style>
+        body { font-family: sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #000; padding: 8px; }
+    </style>
+</head>
+<body>
+<h1>Commande #{{ order.id }}</h1>
+<p><strong>Client :</strong> {{ order.customer.name }}</p>
+<p><strong>Total :</strong> {{ order.total }} €</p>
+
+<h3>Détails des produits</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Prix unitaire</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in order.orderItems %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product.price }} €</td>
+            <td>{{ item.product.price * item.quantity }} €</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

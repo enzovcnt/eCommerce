@@ -1,20 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EmployeeController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Liste des commandes</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/ev/Documents/workshop/eCommerce/src/Controller/EmployeeController.php</code></li>
-        <li>Your template at <code>/home/ev/Documents/workshop/eCommerce/templates/employee/index.html.twig</code></li>
-    </ul>
-</div>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Total</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer.name }}</td>
+                <td>{{ order.total }} €</td>
+                <td>
+                    {% if order.status == 1 %}
+                        <span style="color:orange;">En attente</span>
+                    {% elseif order.status == 2 %}
+                        <span style="color:green;">Validée</span>
+                    {% elseif order.status == 3 %}
+                        <span style="color:blue;">Expédiée</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('app_employee_show', {id: order.id}) }}">Voir</a>
+                    <a href="{{ path('generate_pdf', {id: order.id}) }}">
+                        PDF
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
