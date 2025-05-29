@@ -67,7 +67,7 @@ final class ProductController extends AbstractController
             $product->setDate(new \DateTime());
             $manager->persist($product);
             $manager->flush();
-            return $this->redirectToRoute('app_products');
+            return $this->redirectToRoute('app_product_addimage', ['id' => $product->getId()]);
         }
 
         return $this->render('product/new.html.twig', [

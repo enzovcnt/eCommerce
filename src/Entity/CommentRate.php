@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommentRateRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentRateRepository::class)]
@@ -21,6 +22,7 @@ class CommentRate
     private ?Profile $author = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero]
     private ?int $rate = null;
 
     public function getId(): ?int
