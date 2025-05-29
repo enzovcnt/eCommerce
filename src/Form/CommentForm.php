@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Profile;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,7 +16,9 @@ class CommentForm extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('stars')
+            ->add('stars',IntegerType::class, [
+                'attr' => ['min' => 1, 'max' => 5]
+            ]);
 
         ;
     }

@@ -32,9 +32,11 @@
                     <p class="mt-4 font-semibold text-[#f4c400]">
                         Statut :
                         {% if order.status == 1 %}
-                            En cours
-                        {% else %}
-                            Terminé
+                            En attente
+                        {% elseif order.status == 2 %}
+                            Validée
+                        {% elseif order.status == 3 %}
+                            Expédiée
                         {% endif %}
                     </p>
                 </div>
