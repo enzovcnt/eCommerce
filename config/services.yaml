@@ -6,6 +6,7 @@
 parameters:
     app.jwtsecret: '%env(JWT_SECRET)'
     stripe.secret_key: '%env(STRIPE_SECRET_KEY)%'
+    mercure.jwt_secret: '%env(MERCURE_JWT_SECRET)%'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -20,6 +21,9 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    App\Service\MercureJwtGenerator:
+        arguments:
+            $mercureSecret: '%mercure.jwt_secret%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -1,25 +1,47 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
+    <div class="p-6 max-w-4xl mx-auto bg-white min-h-screen">
 
-    <div class="images d-flex justify-content-around align-items-center">
-        {% for image in product.images %}
-            <div class="d-flex flex-column justify-content-around align-items-center">
-                <img src="{{ vich_uploader_asset(image, "imageFile") | imagine_filter('miniature') }}" alt="">
-                <a href="{{ path('app_removeImage',{id:image.id}) }}" class="btn btn-danger">X</a>
+        <h1 class="text-2xl font-bold text-center text-lime-700 mb-6">Gérer les images du produit</h1>
 
+        <div class="flex flex-wrap gap-6 justify-center mb-8">
+            {% for image in product.images %}
+                <div class="flex flex-col items-center bg-lime-100 p-4 rounded shadow-md w-40">
+                    <img src="{{ vich_uploader_asset(image, 'imageFile') | imagine_filter('miniature') }}"
+                         alt="image produit"
+                         class="w-full h-auto border border-gray-300 rounded mb-2">
+                    <a href="{{ path('app_removeImage', {id:image.id}) }}"
+                       class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                        Supprimer
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="bg-lime-50 p-6 rounded shadow-md mb-8">
+            {{ form_start(formImage) }}
+
+            <div class="mb-4">
+                {{ form_row(formImage.imageFile, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
             </div>
 
-        {% endfor %}
+            <button type="submit"
+                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded font-semibold">
+                Envoyer
+            </button>
+
+            {{ form_end(formImage) }}
+        </div>
+
+        <div class="text-center">
+            <a href="{{ path('app_product_show', {id:product.id}) }}"
+               class="inline-block px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black rounded font-medium">
+                Retour
+            </a>
+        </div>
+
     </div>
-
-
-    {{ form_start(formImage) }}
-    {{ form_row(formImage.imageFile) }}
-    <button type="submit" class="btn btn-success">send</button>
-    {{ form_end(formImage) }}
-
-    <a href="{{ path('app_product_show', {id:product.id}) }}" class="card-link btn btn-warning">retour</a>
-
 {% endblock %}

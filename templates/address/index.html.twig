@@ -1,15 +1,37 @@
-{% extends ('base.html.twig') %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8 max-w-md mx-auto">
 
-    {{ form_start(formAddress) }}
-    {{ form_row(formAddress.number) }}
-    {{ form_row(formAddress.street) }}
-    {{ form_row(formAddress.city) }}
-    {{ form_row(formAddress.zipCode) }}
+        <h2 class="text-2xl font-bold text-[#f4c400] mb-6 text-center">Ajouter / Modifier une adresse</h2>
 
-    {{ form_row(formAddress.country) }}
-    <button type="submit">Valider</button>
-    {{ form_end(formAddress) }}
+        {{ form_start(formAddress, {'attr': {'class': 'space-y-4'}}) }}
 
+        <div>
+            {{ form_row(formAddress.number, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f4c400]'}}) }}
+        </div>
+
+        <div>
+            {{ form_row(formAddress.street, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f4c400]'}}) }}
+        </div>
+
+        <div>
+            {{ form_row(formAddress.city, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f4c400]'}}) }}
+        </div>
+
+        <div>
+            {{ form_row(formAddress.zipCode, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f4c400]'}}) }}
+        </div>
+
+        <div>
+            {{ form_row(formAddress.country, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f4c400]'}}) }}
+        </div>
+
+        <button type="submit" class="w-full bg-[#f4c400] text-black font-semibold py-2 rounded shadow hover:bg-yellow-400 transition duration-200">
+            Valider
+        </button>
+
+        {{ form_end(formAddress) }}
+
+    </div>
 {% endblock %}

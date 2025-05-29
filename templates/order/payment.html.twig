@@ -1,59 +1,71 @@
 {% extends 'base.html.twig' %}
 
-
-
 {% block body %}
+    <div class="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
 
-    <h3>recap</h3>
-    <table>
-        <thead>
-        <tr>
-            <td>product name</td>
-            <td>unit price</td>
-            <td>quantity</td>
-            <td>subtotal</td>
-            <td></td>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in cart %}
+        <h3 class="text-center text-2xl font-bold text-[#f4c400] mb-8">Récapitulatif de la commande</h3>
 
-            <tr>
-                <td>{{ item.product.name }}</td>
-                <td>{{ item.product.price }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.product.price * item.quantity }}</td>
+        <div class="overflow-x-auto">
+            <table class="min-w-full border border-gray-300 rounded-lg divide-y divide-gray-200">
+                <thead class="bg-[#f4c400] text-black">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-semibold">Nom du produit</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold">Prix unitaire</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold">Quantité</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold">Sous-total</th>
+                    <th class="px-6 py-3"></th>
+                </tr>
+                </thead>
+                <tbody class="bg-[#fffdd3] divide-y divide-gray-200">
+                {% for item in cart %}
+                    <tr class="hover:bg-[#fffab8] transition-colors duration-300">
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700 font-semibold">{{ item.product.name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ item.product.price }} €</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ item.quantity }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ (item.product.price * item.quantity) | number_format(2, ',', ' ') }} €</td>
+                        <td class="px-6 py-4"></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-600">Votre panier est vide.</td>
+                    </tr>
+                {% endfor %}
+                <tr class="bg-[#f4c400] font-bold text-black">
+                    <td></td>
+                    <td></td>
+                    <td class="px-6 py-4 text-right">Total</td>
+                    <td class="px-6 py-4">{{ total | number_format(2, ',', ' ') }} €</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-            </tr>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
 
+            <div class="p-6 rounded-lg shadow-md border border-[#f4c400] bg-[#fffdd3]">
+                <h4 class="text-xl font-semibold text-gray-800 mb-4">Adresse de facturation</h4>
+                <p class="text-gray-700">{{ billing.number }} {{ billing.street }}</p>
+                <p class="text-gray-700">{{ billing.zipCode }} {{ billing.city }}</p>
+                <p class="text-gray-700">{{ billing.country }}</p>
+            </div>
 
-        {% endfor %}
+            <div class="p-6 rounded-lg shadow-md border border-[#f4c400] bg-[#fffdd3]">
+                <h4 class="text-xl font-semibold text-gray-800 mb-4">Adresse de livraison</h4>
+                <p class="text-gray-700">{{ shipping.number }} {{ shipping.street }}</p>
+                <p class="text-gray-700">{{ shipping.zipCode }} {{ shipping.city }}</p>
+                <p class="text-gray-700">{{ shipping.country }}</p>
+            </div>
 
-        <tr>
-            <td></td>
-            <td></td>
-            <td>Grand Total</td>
-            <td><strong>{{ total }} €</strong></td>
-        </tr>
+        </div>
 
-        </tbody>
-    </table>
-    <h4>Billing address</h4>
-    <p>{{ billing.number }}</p>
-    <p>{{ billing.street }}</p>
-    <p>{{ billing.city }}</p>
-    <p>{{ billing.zipCode }}</p>
-    <p>{{ billing.country }}</p>
+        <div class="text-center mt-12">
+            <h2 class="text-2xl font-bold text-[#f4c400] mb-6">Tout est bon ?</h2>
+            <a href="{{ path('app_order_prepare', {idBilling: billing.id, idShipping: shipping.id}) }}"
+               class="inline-block px-8 py-3 bg-[#f4c400] text-black font-semibold rounded shadow hover:bg-yellow-400 transition-all duration-200">
+                Payer et commander
+            </a>
+        </div>
 
-    <h4>Shipping address</h4>
-    <p>{{ shipping.number }}</p>
-    <p>{{ shipping.street }}</p>
-    <p>{{ shipping.city }}</p>
-    <p>{{ shipping.zipCode }}</p>
-    <p>{{ shipping.country }}</p>
-
-    <h2>Happy with all that ?</h2>
-    <a href="{{ path('app_order_prepare', {idBilling: billing.id, idShipping: shipping.id}) }}">
-        Payer et commander
-    </a>
+    </div>
 {% endblock %}

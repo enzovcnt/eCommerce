@@ -1,18 +1,48 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="p-6 bg-white min-h-screen max-w-3xl mx-auto">
+        <h1 class="text-2xl font-bold text-center text-lime-700 mb-6">Créer un produit</h1>
 
-    {{ form_start(formNew) }}
+        <div class="bg-lime-100 p-6 rounded-xl shadow-md">
+            {{ form_start(formNew) }}
 
-        {{ form_row(formNew.name) }}
-        {{ form_row(formNew.description) }}
-        {{ form_row(formNew.price) }}
-        {{ form_row(formNew.stock) }}
-        {{ form_row(formNew.category) }}
-        <button type="submit">
-            Envoyer
-        </button>
+            <div class="mb-4">
+                {{ form_row(formNew.name, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
 
-    {{ form_end(formNew) }}
+            <div class="mb-4">
+                {{ form_row(formNew.description, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
 
+            <div class="mb-4">
+                {{ form_row(formNew.price, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_row(formNew.stock, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
+
+            <div class="mb-6">
+                {{ form_row(formNew.category, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded">
+                Envoyer
+            </button>
+
+            {{ form_end(formNew) }}
+        </div>
+    </div>
 {% endblock %}

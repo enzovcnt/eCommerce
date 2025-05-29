@@ -1,18 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="p-6 bg-white min-h-screen max-w-3xl mx-auto">
+        <h1 class="text-2xl font-bold text-center text-lime-700 mb-6">Modifier un produit</h1>
 
+        <div class="bg-lime-100 p-6 rounded-xl shadow-md">
+            {{ form_start(formEdit) }}
 
-    {{ form_start(formEdit) }}
+            <div class="mb-4">
+                {{ form_row(formEdit.name, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
 
-    {{ form_row(formEdit.name) }}
-    {{ form_row(formEdit.description) }}
-    {{ form_row(formEdit.price) }}
-    {{ form_row(formEdit.stock) }}
-    <button type="submit">
-        Envoyer
-    </button>
+            <div class="mb-4">
+                {{ form_row(formEdit.description, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
 
-    {{ form_end(formEdit) }}
+            <div class="mb-4">
+                {{ form_row(formEdit.price, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
 
+            <div class="mb-6">
+                {{ form_row(formEdit.stock, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded">
+                Envoyer
+            </button>
+
+            {{ form_end(formEdit) }}
+        </div>
+    </div>
 {% endblock %}

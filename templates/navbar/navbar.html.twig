@@ -1,40 +1,55 @@
-<nav class="flex items-center justify-between flex-wrap bg-gray-500 p-6 sticky top-0 z-50 shadow-md">
+<nav class="bg-[#c9da2c] sticky top-0 z-50 shadow-md px-6 py-4 flex items-center justify-between rounded-b-xl">
 
+    <!-- Gauche : Logo + Titre -->
+    <div class="flex items-center space-x-4">
+        <img src="/path/to/logo.svg" alt="Logo abeille" class="h-8 w-8" />
+        <span class="text-black font-serif text-2xl font-bold">La Grange</span>
+        <span class="text-sm text-black italic">Saison : Automne</span>
+    </div>
 
-    <div class="block lg:hidden">
-        <button id="burger-btn" class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
-            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <title>Menu</title>
+    <!-- Bouton burger pour mobile -->
+    <div class="lg:hidden">
+        <button id="burger-btn" class="text-black hover:text-white border border-black px-3 py-1 rounded">
+            <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
                 <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
             </svg>
         </button>
     </div>
 
-    <div id="burger-menu" class="w-full hidden lg:flex lg:items-center lg:w-auto">
-        <div class="text-xl lg:flex-grow">
-            {% if app.user %}
-                <a href="{{ path('app_cart') }}">Cart <strong>({{ cart_global.getCount() }})</strong></a>
-                <a href="{{ path('app_products') }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">Accueil</a>
-                <a href="{{ path('app_product_create') }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">Create</a>
-                <a href="{{ path('app_category') }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">Category</a>
-                <a href="{{ path('app_address', {id:app.user.id}) }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">Address</a>
-                <a href="{{ path('app_shopping', {id:app.user}) }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">Shopping</a>
-                <a href="{{ path('app_my_orders') }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">commande</a>
-                <a href="{{ path('app_employee') }}" class="block mt-4 lg:inline-block lg:mt-0 text-yellow-200 hover:text-white mr-4 text-xl">employé</a>
+    <!-- Liens -->
+    <div id="burger-menu" class="hidden w-full lg:flex lg:w-auto lg:items-center mt-4 lg:mt-0">
+        <div class="flex flex-col lg:flex-row lg:space-x-6 text-lg font-semibold text-black">
+            {% if app.user and 'ROLE_USER' in app.user.roles %}
+                <a href="{{ path('app_address', {id: app.user.id}) }}" class="hover:underline">Adresse</a>
+                <a href="{{ path('app_shopping', {id: app.user}) }}" class="hover:underline">Shopping</a>
+                <a href="{{ path('app_my_orders') }}" class="hover:underline">Commande</a>
+            {% endif %}
+
+            {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                <a href="{{ path('app_cart') }}">Panier <strong>({{ cart_global.getCount() }})</strong></a>
+                <a href="{{ path('app_products') }}" class="hover:underline">Accueil</a>
+                <a href="{{ path('app_product_create') }}" class="hover:underline">Créer</a>
+                <a href="{{ path('app_category') }}" class="hover:underline">Catégorie</a>
+            {% endif %}
+
+            {% if app.user and 'ROLE_EMPLOYEE' in app.user.roles %}
+                <a href="{{ path('app_employee') }}" class="hover:underline">Employé</a>
+            {% endif %}
+
+            {% if not app.user %}
+                <a href="{{ path('app_register') }}" class="ml-4 hover:underline">Inscription</a>
+                <a href="{{ path('app_login') }}" class="ml-2 hover:underline">Se connecter</a>
             {% endif %}
         </div>
     </div>
 </nav>
 
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const burgerBtn = document.getElementById("burger-btn");
         const burgerMenu = document.getElementById("burger-menu");
-
         burgerBtn.addEventListener("click", function () {
             burgerMenu.classList.toggle("hidden");
-            console.log('bouton');
         });
     });
 </script>

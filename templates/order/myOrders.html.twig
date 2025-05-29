@@ -1,26 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
 
-    {% for order in app.user.profile.orders %}
-        <p><strong>
-                id : {{ order.id }} | total : {{ order.total }}<br>
+        <h2 class="text-center text-2xl font-bold text-[#f4c400] mb-10">
+            Mes commandes
+        </h2>
 
-                Billing Address:<br>
-                {{ order.billingAddress.street }}<br>
-                {{ order.billingAddress.city }}, {{ order.billingAddress.zipCode }}<br>
-                {{ order.billingAddress.country }}<br>
+        <div class="space-y-6">
+            {% for order in app.user.profile.orders %}
+                <div class="p-6 rounded-lg shadow-md border border-[#f4c400] bg-[#fffdd3] hover:bg-[#fffab8] transition-all duration-300">
+                    <p class="mb-4 font-semibold text-gray-800 text-lg">
+                        Commande #{{ order.id }} — Total : <span class="text-black">{{ order.total | number_format(2, ',', ' ') }} €</span>
+                    </p>
 
-                Shipping Address:<br>
-                {{ order.shippingAddress.street }}<br>
-                {{ order.shippingAddress.city }}, {{ order.shippingAddress.zipCode }}<br>
-                {{ order.shippingAddress.country }}<br>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+                        <div>
+                            <h4 class="font-semibold mb-2 text-gray-900">Adresse de facturation</h4>
+                            <p>{{ order.billingAddress.street }}</p>
+                            <p>{{ order.billingAddress.city }}, {{ order.billingAddress.zipCode }}</p>
+                            <p>{{ order.billingAddress.country }}</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2 text-gray-900">Adresse de livraison</h4>
+                            <p>{{ order.shippingAddress.street }}</p>
+                            <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.zipCode }}</p>
+                            <p>{{ order.shippingAddress.country }}</p>
+                        </div>
+                    </div>
 
-                {% if order.status == 1 %}
-                    Status: en cours
-                {% endif %}
-            </strong></p>
+                    <p class="mt-4 font-semibold text-[#f4c400]">
+                        Statut :
+                        {% if order.status == 1 %}
+                            En cours
+                        {% else %}
+                            Terminé
+                        {% endif %}
+                    </p>
+                </div>
+            {% else %}
+                <p class="text-center text-gray-600">Vous n'avez pas encore passé de commande.</p>
+            {% endfor %}
+        </div>
 
-    {% endfor %}
-
+    </div>
 {% endblock %}

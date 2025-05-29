@@ -1,50 +1,81 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <hr>
-    {% for img in product.images %}
-        <div class="carousel-item active">
-            <img src="{{ vich_uploader_asset(img, "imageFile") | imagine_filter('miniature') }}" class="card-img-top" alt="...">
-        </div>
-    {% endfor %}
-    <p><strong>{{ product.name }}</strong></p>
-    <p>{{ product.description }}</p>
-    <p>{{ product.price }} $</p>
-    <p>{{ product.stock }} kg</p>
-    {% if averageStars is not null %}
-        <p>Moyenne des notes : {{ averageStars|number_format(1) }}/5</p>
-    {% else %}
-        <p>Ce produit n'a pas encore été noté.</p>
-    {% endif %}
-    <a href="{{ path('app_products') }}">retour</a>
-    <a href="{{ path('app_product_edit', {id:product.id}) }}">Edit</a>
-    <a href="{{ path('app_product_addimage', {id:product.id}) }}">Ajouter image</a>
-    <hr>
-
-
-    <div>
-        {{ form_start(formComment, {
-            'action': path('app_comment', {id: product.id}),
-            'method': 'POST',
-        }) }}
-
-        {{ form_row(formComment.content) }}
-        {{ form_row(formComment.stars) }}
-
-        <button type="submit">
-            Envoyer
-        </button>
-
-        {{ form_end(formComment) }}
-    </div>
-
-    <div>
-        {% for comment in product.comments %}
-                <p>Author: {{ comment.author.name }}</p>
-                <p>{{ comment.content }}</p>
-                <p>{{ comment.stars }}</p>
+    <div class="p-6 bg-white min-h-screen max-w-5xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+                {% for img in product.images %}
+                    <div class="carousel-item">
+                        <img src="{{ vich_uploader_asset(img, 'imageFile') | imagine_filter('miniature') }}"
+                             alt="Image produit"
+                             class="w-full h-auto rounded shadow border border-gray-300">
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
 
+            <div class="space-y-4">
+                <p class="text-2xl font-bold text-gray-800">{{ product.name }}</p>
+                <p class="text-gray-700">{{ product.description }}</p>
+                <p class="text-lg font-semibold text-green-700">{{ product.price }} $</p>
+                <p class="text-sm text-gray-600">Stock : {{ product.stock }} kg</p>
+
+                {% if averageStars is not null %}
+                    <p class="text-yellow-600 font-medium">Moyenne des notes : {{ averageStars|number_format(1) }}/5</p>
+                {% else %}
+                    <p class="text-gray-500 italic">Ce produit n'a pas encore été noté.</p>
+                {% endif %}
+
+                <div class="flex flex-wrap gap-4 mt-4">
+                    <a href="{{ path('app_products') }}"
+                       class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded text-black font-medium">Retour</a>
+                    <a href="{{ path('app_product_edit', {id:product.id}) }}"
+                       class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Éditer</a>
+                    <a href="{{ path('app_product_addimage', {id:product.id}) }}"
+                       class="px-4 py-2 bg-lime-500 hover:bg-lime-600 text-white rounded">Ajouter image</a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-8">
+
+        <div class="bg-lime-100 p-6 rounded shadow-md">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Laissez un commentaire</h2>
+
+            {{ form_start(formComment, {
+                'action': path('app_comment', {id: product.id}),
+                'method': 'POST',
+            }) }}
+
+            <div class="mb-4">
+                {{ form_row(formComment.content, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_row(formComment.stars, {
+                    'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}
+                }) }}
+            </div>
+
+            <button type="submit"
+                    class="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded font-semibold text-black">
+                Envoyer
+            </button>
+
+            {{ form_end(formComment) }}
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Commentaires</h2>
+
+            {% for comment in product.comments %}
+                <div class="mb-4 p-4 border border-gray-300 rounded bg-white shadow-sm">
+                    <p class="text-sm text-gray-600">Auteur : <strong>{{ comment.author.name }}</strong></p>
+                    <p class="mt-1 text-gray-800">{{ comment.content }}</p>
+                    <p class="mt-1 text-yellow-600 font-semibold">Note : {{ comment.stars }}/5</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

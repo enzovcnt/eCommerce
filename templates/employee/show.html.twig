@@ -1,28 +1,61 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Détails de la commande #{{ order.id }}</h1>
+    <div class="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
 
-    <p><strong>Client :</strong> {{ order.customer.name }}</p>
-    <p><strong>Total :</strong> {{ order.total }} €</p>
-    <p><strong>Statut :</strong>
-        {% if order.status == 1 %}
-            <span style="color:orange;">En attente</span>
-        {% elseif order.status == 2 %}
-            <span style="color:green;">Validée</span>
-        {% elseif order.status == 3 %}
-            <span style="color:blue;">Expédiée</span>
-        {% endif %}
-    </p>
+        <h1 class="text-3xl font-bold text-[#f4c400] mb-8 text-center">
+            Détails de la commande #{{ order.id }}
+        </h1>
 
-    <h3>Changer le statut</h3>
-    <form method="get" action="{{ path('app_employee_status', {id: order.id, status: 2}) }}">
-        <button type="submit">Passer en Validée</button>
-    </form>
+        <div class="bg-[#fffdd3] border border-[#f4c400] rounded-lg shadow-md p-6 mb-8 text-gray-800">
+            <p class="mb-3"><strong>Client :</strong> {{ order.customer.name }}</p>
+            <p class="mb-3"><strong>Total :</strong> {{ order.total | number_format(2, ',', ' ') }} €</p>
+            <p class="mb-3"><strong>Statut :</strong>
+                <span class="
+                {% if order.status == 1 %} text-orange-500
+                {% elseif order.status == 2 %} text-green-600
+                {% elseif order.status == 3 %} text-blue-600
+                {% else %} text-gray-600
+                {% endif %}
+                font-semibold
+            ">
+                {% if order.status == 1 %}
+                    En attente
+                {% elseif order.status == 2 %}
+                    Validée
+                {% elseif order.status == 3 %}
+                    Expédiée
+                {% else %}
+                    Inconnu
+                {% endif %}
+            </span>
+            </p>
+        </div>
 
-    <form method="get" action="{{ path('app_employee_status', {id: order.id, status: 3}) }}">
-        <button type="submit">Passer en Expédiée</button>
-    </form>
+        <h3 class="text-xl font-semibold mb-4 text-gray-900">Changer le statut</h3>
 
-    <a href="{{ path('app_employee') }}">← Retour à la liste</a>
+        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <form method="get" action="{{ path('app_employee_status', {id: order.id, status: 2}) }}">
+                <button type="submit"
+                        class="w-full sm:w-auto px-6 py-3 bg-[#f4c400] text-black font-semibold rounded shadow hover:bg-yellow-400 transition duration-200">
+                    Passer en Validée
+                </button>
+            </form>
+
+            <form method="get" action="{{ path('app_employee_status', {id: order.id, status: 3}) }}">
+                <button type="submit"
+                        class="w-full sm:w-auto px-6 py-3 bg-[#f4c400] text-black font-semibold rounded shadow hover:bg-yellow-400 transition duration-200">
+                    Passer en Expédiée
+                </button>
+            </form>
+        </div>
+
+        <div class="text-center">
+            <a href="{{ path('app_employee') }}"
+               class="text-[#f4c400] font-semibold hover:underline inline-block">
+                ← Retour à la liste
+            </a>
+        </div>
+
+    </div>
 {% endblock %}

@@ -3,18 +3,22 @@
 {% block title %}Hello ProductController!{% endblock %}
 
 {% block body %}
+    <div class="p-6 bg-white min-h-screen">
+        <h1 class="text-2xl font-serif text-center text-lime-700 mb-8">Nos Produits</h1>
 
-    {% for product in products %}
-
-<hr>
-        <p><strong>{{ product.name }}</strong></p>
-        <p>{{ product.description }}</p>
-        <p>{{ product.price }} $</p>
-        <p>{{ product.stock }} kg</p>
-
-        <a href="{{ path('app_product_show', {id:product.id}) }}">Voir</a>
-<hr>
-
-    {% endfor %}
-
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {% for product in products %}
+                <div class="border border-red-500 rounded-lg shadow-sm p-4 bg-lime-100 hover:shadow-md transition">
+                    <p class="text-xl font-bold text-gray-800">{{ product.name }}</p>
+                    <p class="text-gray-700 mt-2">{{ product.description }}</p>
+                    <p class="mt-2 font-semibold text-green-900">{{ product.price }} $</p>
+                    <p class="text-sm text-gray-600">{{ product.stock }} kg</p>
+                    <a href="{{ path('app_product_show', {id:product.id}) }}"
+                       class="inline-block mt-4 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black rounded-md font-semibold">
+                        Voir
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

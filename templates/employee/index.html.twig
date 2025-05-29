@@ -1,41 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Liste des commandes</h1>
+    <div class="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
 
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Client</th>
-            <th>Total</th>
-            <th>Statut</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for order in orders %}
-            <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.customer.name }}</td>
-                <td>{{ order.total }} €</td>
-                <td>
-                    {% if order.status == 1 %}
-                        <span style="color:orange;">En attente</span>
-                    {% elseif order.status == 2 %}
-                        <span style="color:green;">Validée</span>
-                    {% elseif order.status == 3 %}
-                        <span style="color:blue;">Expédiée</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{{ path('app_employee_show', {id: order.id}) }}">Voir</a>
-                    <a href="{{ path('generate_pdf', {id: order.id}) }}">
-                        PDF
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <h1 class="text-3xl font-bold text-center text-[#f4c400] mb-8">Liste des commandes</h1>
+
+        <div class="overflow-x-auto rounded-lg border border-[#f4c400] shadow-md">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-[#f4c400] text-black">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">ID</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">Client</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">Total</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">Statut</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="bg-[#fffdd3] divide-y divide-gray-200">
+                {% for order in orders %}
+                    <tr class="hover:bg-[#fffab8] transition-colors duration-300">
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700 font-semibold">{{ order.id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ order.customer.name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ order.total | number_format(2, ',', ' ') }} €</td>
+                        <td class="px-6 py-4 whitespace-nowrap font-semibold
+                                {% if order.status == 1 %} text-orange-500
+                                {% elseif order.status == 2 %} text-green-600
+                                {% elseif order.status == 3 %} text-blue-600
+                                {% else %} text-gray-600
+                                {% endif %}">
+                            {% if order.status == 1 %}
+                                En attente
+                            {% elseif order.status == 2 %}
+                                Validée
+                            {% elseif order.status == 3 %}
+                                Expédiée
+                            {% else %}
+                                Inconnu
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap space-x-4">
+                            <a href="{{ path('app_employee_show', {id: order.id}) }}"
+                               class="text-[#f4c400] font-semibold hover:underline">Voir</a>
+                            <a href="{{ path('generate_pdf', {id: order.id}) }}"
+                               class="text-[#f4c400] font-semibold hover:underline">PDF</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-600">Aucune commande trouvée.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 {% endblock %}

@@ -1,44 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Panier{% endblock %}
 
 {% block body %}
-    <table>
-        <thead>
-        <tr>
-            <td>product name</td>
-            <td>unit price</td>
-            <td>quantity</td>
-            <td>subtotal</td>
-            <td>actions</td>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in cart %}
+    <div class="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
 
-            <tr>
-                <td>{{ item.product.name }}</td>
-                <td>{{ item.product.price }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.product.price * item.quantity }}</td>
-                <td>
-                    <a href="{{ path('app_cart_add',{id:item.product.id, quantity:1}) }}">ajouter</a>
-                    <a href="{{ path('app_cart_remove_one_product',{id:item.product.id, quantity:1}) }}">enlever</a>
-                    <a href="{{ path('app_cart_clear_product',{id:item.product.id}) }}">tous les enlever</a>
-                </td>
-            </tr>
+        <h1 class="text-3xl font-bold text-[#f4c400] mb-8 text-center">Votre panier</h1>
 
+        <div class="overflow-x-auto border border-[#f4c400] rounded-lg shadow-md bg-[#fffdd3]">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-[#f4c400] text-black">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">product name</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">unit price</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">quantity</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">subtotal</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold uppercase">actions</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                {% for item in cart %}
+                    <tr class="hover:bg-[#fffab8] transition-colors duration-300">
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700 font-semibold">{{ item.product.name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ item.product.price }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ item.quantity }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ item.product.price * item.quantity }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap space-x-2">
+                            <a href="{{ path('app_cart_add',{id:item.product.id, quantity:1}) }}" class="text-[#f4c400] font-semibold hover:underline">ajouter</a>
+                            <a href="{{ path('app_cart_remove_one_product',{id:item.product.id, quantity:1}) }}" class="text-[#f4c400] font-semibold hover:underline">enlever</a>
+                            <a href="{{ path('app_cart_clear_product',{id:item.product.id}) }}" class="text-[#f4c400] font-semibold hover:underline">tous les enlever</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-600">Votre panier est vide.</td>
+                    </tr>
+                {% endfor %}
 
-        {% endfor %}
+                <tr class="bg-[#f4c400] text-black font-bold">
+                    <td class="px-6 py-4">
 
-        <tr>
-            <td><a href="">empty all</a></td>
-            <td></td>
-            <td>Grand Total</td>
-            <td><strong>{{ total }} €</strong></td>
-            <td><a href="{{ path('app_order_billingAddress') }}">Make order</a></td>
-        </tr>
+                    </td>
+                    <td></td>
+                    <td class="px-6 py-4 text-right">Grand Total</td>
+                    <td class="px-6 py-4"><strong>{{ total }} €</strong></td>
+                    <td class="px-6 py-4">
+                        <a href="{{ path('app_order_billingAddress') }}" class="inline-block px-5 py-2 bg-black text-[#f4c400] font-semibold rounded shadow hover:bg-gray-900 transition duration-200">Make order</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-        </tbody>
-    </table>
+    </div>
 {% endblock %}
