@@ -104,9 +104,9 @@ final class OrderController extends AbstractController
         $order->setShippingAddress($shipping);
         $order->setCustomer($this->getUser()->getProfile());
         $order->setTotal($cartService->getTotal());
-        $order->setStatus(0); // commande en attente de paiement
+        $order->setStatus(0);
         $manager->persist($order);
-        $manager->flush(); // maintenant, l'order a un ID
+        $manager->flush();
 
         return $this->redirectToRoute('stripe_checkout', [
             'orderId' => $order->getId(),
