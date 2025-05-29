@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Product;
 use App\Form\CommentForm;
 use App\Form\ProductQuantityForm;
+use App\Repository\CommentRateRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +31,10 @@ final class ShoppingController extends AbstractController
     }
 
     #[Route('/shopping/{id}', name: 'app_shopping_product_show')]
-    public function show(Product $product, EntityManagerInterface $manager, Request $request, CommentRepository $commentRepository): Response
+    public function show(Product $product, EntityManagerInterface $manager,
+                         Request $request, CommentRepository $commentRepository,
+    CommentRateRepository $commentRateRepository
+    ): Response
     {
 
         if(!$this->getUser() || !$product)

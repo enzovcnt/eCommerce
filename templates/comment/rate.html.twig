@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Noter ce commentaire</h2>
+    <p>{{ comment.content }}</p>
+
+    {{ form_start(form) }}
+    {{ form_row(form.rate) }}
+    <button class="btn btn-primary">Noter</button>
+    {{ form_end(form) }}
+{% endblock %}

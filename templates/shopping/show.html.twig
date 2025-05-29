@@ -35,9 +35,24 @@
 
     <div>
     {% for comment in product.comments %}
-        <p>Author: {{ comment.author.name }}</p>
-        <p>{{ comment.content }}</p>
-        <p>{{ comment.stars }}</p>
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+            <p><strong>{{ comment.author.name }}</strong></p>
+            <p>{{ comment.content }}</p>
+            <p>Note de l'avis : {{ comment.stars }}/5</p>
+
+            {% set average = comment.commentRates|length > 0
+                ? (comment.commentRates|map(rate => rate.rate)|reduce((carry, rate) => carry + rate)/comment.commentRates|length)
+                : null %}
+
+            {% if average is not null %}
+                <p>Utile ? Moyenne : {{ average|number_format(1) }}/5</p>
+            {% else %}
+                <p>Aucun vote sur ce commentaire.</p>
+            {% endif %}
+
+
+                <a href="{{ path('app_comment_rate', {id: comment.id}) }}">Donner votre avis sur ce commentaire</a>
+
         </div>
     {% endfor %}
 

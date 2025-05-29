@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,6 +34,17 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
+
+    /**
+     * @var Collection<int, CommentRate>
+     */
+    #[ORM\OneToMany(targetEntity: CommentRate::class, mappedBy: 'comment')]
+    private Collection $commentRates;
+
+    public function __construct()
+    {
+        $this->commentRates = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -95,6 +108,36 @@ class Comment
     public function setProduct(?Product $product): static
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommentRate>
+     */
+    public function getCommentRates(): Collection
+    {
+        return $this->commentRates;
+    }
+
+    public function addCommentRate(CommentRate $commentRate): static
+    {
+        if (!$this->commentRates->contains($commentRate)) {
+            $this->commentRates->add($commentRate);
+            $commentRate->setComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentRate(CommentRate $commentRate): static
+    {
+        if ($this->commentRates->removeElement($commentRate)) {
+            // set the owning side to null (unless already changed)
+            if ($commentRate->getComment() === $this) {
+                $commentRate->setComment(null);
+            }
+        }
 
         return $this;
     }
