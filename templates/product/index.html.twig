@@ -9,6 +9,15 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {% for product in products %}
                 <div class="border border-red-500 rounded-lg shadow-sm p-4 bg-lime-100 hover:shadow-md transition">
+                    <div class="space-y-4">
+                        {% for img in product.images %}
+                            <div class="carousel-item">
+                                <img src="{{ vich_uploader_asset(img, 'imageFile') | imagine_filter('miniature') }}"
+                                     alt="Image produit"
+                                     class="w-full h-auto rounded shadow border border-gray-300">
+                            </div>
+                        {% endfor %}
+                    </div>
                     <p class="text-xl font-bold text-gray-800">{{ product.name }}</p>
                     <p class="text-gray-700 mt-2">{{ product.description }}</p>
                     <p class="mt-2 font-semibold text-green-900">{{ product.price }} $</p>

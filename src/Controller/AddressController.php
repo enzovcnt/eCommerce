@@ -14,17 +14,23 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AddressController extends AbstractController
 {
-    #[Route('/profile/{id}/address', name: 'app_address')]
-    public function index(Profile $profile, EntityManagerInterface $manager, Request $request): Response
+    #[Route('/profile/address', name: 'app_address')]
+    public function index(EntityManagerInterface $manager, Request $request): Response
     {
+        $profile = $this->getUser()->getProfile();
+        if (!$profile) {
+            $this->redirectToRoute('app_login');
+        }
+
         $address = new Address();
         $formAddress = $this->createForm(AddressForm::class, $address);
         $formAddress->handleRequest($request);
         if ($formAddress->isSubmitted() && $formAddress->isValid()) {
-            $address->setOwner($this->getUser()->getProfile());
+            $address->setOwner($profile);
             $manager->persist($address);
             $manager->flush();
-            return $this->redirectToRoute('app_products');
+
+            return $this->redirectToRoute('app_shopping');
         }
 
         return $this->render('address/index.html.twig', [
@@ -32,5 +38,6 @@ final class AddressController extends AbstractController
             'formAddress' => $formAddress->createView(),
         ]);
     }
+
 
 }

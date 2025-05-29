@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ConversationController extends AbstractController
 {
-    #[Route('/', name: 'conversations')]
+    #[Route('/conversation', name: 'conversations')]
     public function index(ProfileRepository $profileRepository): Response
     {
         if(!$this->getUser()){return $this->redirectToRoute('app_login');}
