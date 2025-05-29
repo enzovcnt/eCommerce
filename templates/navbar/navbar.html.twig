@@ -30,6 +30,7 @@
                 <a href="{{ path('app_products') }}" class="hover:underline">Accueil</a>
                 <a href="{{ path('app_product_create') }}" class="hover:underline">Créer</a>
                 <a href="{{ path('app_category') }}" class="hover:underline">Catégorie</a>
+
             {% endif %}
 
             {% if app.user and 'ROLE_EMPLOYEE' in app.user.roles %}
@@ -40,6 +41,7 @@
                 <a href="{{ path('app_register') }}" class="ml-4 hover:underline">Inscription</a>
                 <a href="{{ path('app_login') }}" class="ml-2 hover:underline">Se connecter</a>
             {% endif %}
+            <a href="{{ path('app_logout') }}" class="hover:underline">logout</a>
         </div>
     </div>
 </nav>
