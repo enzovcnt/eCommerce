@@ -6,6 +6,7 @@ use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Repository\AddressRepository;
 use App\Service\CartService;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,8 +51,9 @@ class StripeController extends AbstractController
         return $this->redirect($session->url, 303);
     }
     #[Route('/order/validate/{idBilling}/{idShipping}', name: 'app_order_validate')]
-    public function validate(EntityManagerInterface $manager,AddressRepository $addressRepository, $idBilling, $idShipping, CartService $cartService): Response
+    public function validate(EntityManagerInterface $manager,AddressRepository $addressRepository, $idBilling, $idShipping, CartService $cartService, EmailService $emailService): Response
     {
+        $user = $this->getUser();
 
         $billing = $addressRepository->find($idBilling);
         $shipping = $addressRepository->find($idShipping);
@@ -84,6 +86,13 @@ class StripeController extends AbstractController
         }
         $manager->flush();
         $cartService->emptyCart();
+
+        $emailService->sendOrderConfirmation(
+            $user->getEmail(),
+            $user->getEmail(),
+            $order->getTotal(),
+        );
+
         return $this->redirectToRoute('app_my_orders');
     }
 

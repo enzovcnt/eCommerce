@@ -23,10 +23,11 @@
                 <a href="{{ path('app_address', {id: app.user.id}) }}" class="hover:underline">Adresse</a>
                 <a href="{{ path('app_shopping', {id: app.user}) }}" class="hover:underline">Shopping</a>
                 <a href="{{ path('app_my_orders') }}" class="hover:underline">Commande</a>
+                <a href="{{ path('app_cart') }}">Panier <strong>({{ cart_global.getCount() }})</strong></a>
             {% endif %}
 
             {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-                <a href="{{ path('app_cart') }}">Panier <strong>({{ cart_global.getCount() }})</strong></a>
+
                 <a href="{{ path('app_products') }}" class="hover:underline">Accueil</a>
                 <a href="{{ path('app_product_create') }}" class="hover:underline">Créer</a>
                 <a href="{{ path('app_category') }}" class="hover:underline">Catégorie</a>

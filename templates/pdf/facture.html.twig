@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Facture</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { color: #2c3e50; }
+        p { font-size: 14px; }
+    </style>
+</head>
+<body>
+<h1>Facture</h1>
+<p><strong>Client :</strong> {{ emailUser }}</p>
+<p><strong>Date :</strong> {{ "now"|date("d/m/Y H:i") }}</p>
+<p><strong>Montant total :</strong> {{ total }} €</p>
+</body>
+</html>
